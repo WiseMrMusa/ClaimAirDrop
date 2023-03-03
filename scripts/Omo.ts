@@ -1,33 +1,37 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import fs from "fs";
 import { ethers } from "hardhat";
-import { impersonateAccount } from "@nomicfoundation/hardhat-network-helpers";
+import { impersonateAccount, setBalance } from "@nomicfoundation/hardhat-network-helpers";
+import { utils } from 'ethers';
 
 
 async function main() {
   const TimDanContract = await ethers.getContractFactory("TimiDAN");
-  const deployContract = await TimDanContract.deploy("0x1c97f222d9ec0a07df47315ad18ff30d8e216e45eea2f47c3b77331ac2acd842");
+  const deployContract = await TimDanContract.deploy("0xe7fc701a407359b2949729565d52e87817f6adf1954865cad7a0b790e75ccd7d");
   await deployContract.deployed()
   const conAddress = deployContract.address;
   console.log(`This contract is deloyed at: ${deployContract.address}`);
 
 
   const TimiBaby = await ethers.getContractAt("ITimiDAN",conAddress);
-
-  let address = "0xab7608F1B3aaf54c54aDf5EEb50Fe507c3668D40";
-  impersonateAccount(address);
+  
+  let address = "0xEF66A4463002222283C1C330eDf501790490fAd0";
+  await impersonateAccount(address);
+  await setBalance(address,ethers.utils.parseEther("1000000000"));
   const TheSigner = await ethers.getSigner(address);
-
+  
+  console.log(await TimiBaby.balanceOf(address));
 
   let proof = [
-    '0x4420ee2cd2ddf8dd00a8c1926714da7025823c1418619b7ca7c62959f47d8948',
-    '0x12c12967dd4986a5f5f767d39ea73fbbce36c71660a75f5c514d57934477040c',
-    '0x0ffc147ff884093f0f81ca4938918f42ae74975f7486287e46f13bde84f186c4',
-    '0xd44cb2f18886ff3b38661ab777ea0b750e68772dbcd488ee60ebc768497d1d70'
+    '0x0d53100760a667a745249e76c38d2685c8987f0c99f468c54f7c99f37037edcb',
+    '0xee00991c59c6c6c6cfdbbb86890d607645f6f0924c2edeef5d8b57d5ed9fc1a1',
+    '0x4f97d06cb5cb8a0801e98a1fc478f515c32fc066168986b049808f2b03c78bc6',
+    '0x339ec538df47f8c3bd2d836552afa20bb9a97111b801b5520d39c29e17595770'
   ];
   let amount = "10000";
 
-  TimiBaby.connect(TheSigner).claimAirDrop(proof,amount)
+  TimiBaby.connect(TheSigner).claimAirDrop(proof,amount);
+  console.log(await TimiBaby.connect(TheSigner).balanceOf(address));
 }
 
  
