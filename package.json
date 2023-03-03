@@ -1,0 +1,25 @@
+{
+  "name": "timidan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.8.2",
+    "@openzeppelin/merkle-tree": "^1.0.2",
+    "convert-csv-to-json": "^2.0.0",
+    "csv-parse": "^5.3.5",
+    "csvtojson": "^2.0.10",
+    "dotenv": "^16.0.3",
+    "merkle": "^0.6.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "hardhat": "^2.13.0"
+  }
+}
